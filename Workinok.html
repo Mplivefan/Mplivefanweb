@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP LiveFan Media - Sports & Entertainment News</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #e51937; /* MP LiveFan red */
+            --secondary-color: #1a1a1a;
+            --accent-color: #0056b3;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .news-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 0;
+            border-bottom: 4px solid var(--primary-color);
+        }
+        
+        .navbar-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .breaking-news {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 0;
+            font-weight: 600;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 8rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            font-size: 4rem;
+            line-height: 1.1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 3px;
+        }
+        
+        .live-badge {
+            background-color: #ff0000;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Custom MP LiveFan Styles */
+        .mp-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .mp-btn {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .mp-btn:hover {
+            background-color: #c1122d;
+            border-color: #c1122d;
+            color: white;
+        }
+        
+        .mp-nav-link {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem;
+            position: relative;
+        }
+        
+        .mp-nav-link:hover, .mp-nav-link.active {
+            color: var(--primary-color);
+        }
+        
+        .mp-nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .mp-section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .mp-section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+        
+        /* Live Match Widget */
+        .live-match-widget {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .live-match-header {
+            background-color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .match-teams {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+        
+        .match-score {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin: 0 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        /* Admin Dashboard Styles */
+        .admin-sidebar {
+            background-color: var(--secondary-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 280px;
+            padding: 2rem 1rem;
+        }
+        
+        .admin-main {
+            margin-left: 280px;
+            transition: all 0.3s;
+        }
+        
+        .editor-toolbar {
+            background-color: #f1f3f4;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-bottom: none;
+        }
+        
+        .editor-content {
+            min-height: 400px;
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            background-color: white;
+        }
+        
+        @media (max-width: 992px) {
+            .admin-sidebar {
+                transform: translateX(-280px);
+            }
+            
+            .admin-main {
+                margin-left: 0;
+            }
+            
+            .admin-sidebar.active, .admin-main.active {
+                transform: translateX(280px);
+            }
+        }
+
+        .fa-map-marker-alt, .fa-phone, .fa-envelope {margin-right: 10px;}
+
+        /* Enhanced Footer Styles */
+        .footer-container {
+        max-width: 1200px;     /* Set maximum width */
+        width: 100%;           /* Ensure it takes full width up to max */
+        margin: 0 auto;        /* Center horizontally */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        padding: 0 20px;
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 40px 0 20px;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            width: 100%;
+            margin: 0 auto;
+            /*border-radius: 8px 8px 0 0;*/
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+        
+        .footer-section h3 {
+            color: #f39c12;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #f39c12;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .footer-section ul li::before {
+            content: '•';
+            color: #f39c12;
+            position: absolute;
+            left: 0;
+        }
+        
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #f39c12;
+            transform: translateX(5px);
+        }
+        
+        .contact-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: #f39c12;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: #ecf0f1;
+            background-color: #34495e;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .social-links a:hover {
+            background-color: #f39c12;
+            transform: translateY(-3px) scale(1.1);
+            color: #2c3e50;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #34495e;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        .footer-bottom a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+            margin: 0 10px;
+        }
+        
+        .footer-bottom a:hover {
+            color: #f39c12;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 968px) {
+            .footer {
+                width: 95%;
+                padding: 30px 0 15px;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .footer-section {
+                margin-bottom: 25px;
+            }
+            
+            .footer-section h3 {
+                font-size: 1.1rem;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .footer {
+                width: 100%;
+                border-radius: 0;
+            }
+            
+            .footer-bottom {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+<!-- Font Awesome for icons (you can also use SVG or other icon libraries) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Public News Portal -->
+    <div id="news-portal">
+        <!-- Breaking News Ticker -->
+        <div class="breaking-news">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-1">
+                        <span class="badge bg-dark live-badge">LIVE</span>
+                    </div>
+                    <div class="col-md-11">
+                        <marquee behavior="scroll" direction="left">
+                            <strong>BREAKING:</strong> Manchester United vs Liverpool - LIVE SCORE 2-1 (65') | Champions League draw results | NBA Playoffs: Warriors take Game 1 | New movie releases this weekend
+                        </marquee>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Header -->
+        <header class="news-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="navbar-brand mb-0">MP <span class="mp-highlight">LiveFan</span> Media</h1>
+                        <p class="mb-0">Your Ultimate Sports & Entertainment Hub</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="d-flex justify-content-md-end align-items-center">
+                            <div class="me-4">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                <span id="current-date">June 15, 2023</span>
+                            </div>
+                            <div>
+                                <i class="fas fa-clock me-2"></i>
+                                <span id="current-time">10:30 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+       
+        <!-- Main Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link mp-nav-link active" href="#">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link mp-nav-link dropdown-toggle" href="#" id="sportsDropdown" role="button" data-bs-toggle="dropdown">
+                                Sports
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Football</a></li>
+                                <li><a class="dropdown-item" href="#">Basketball</a></li>
+                                <li><a class="dropdown-item" href="#">Tennis</a></li>
+                                <li><a class="dropdown-item" href="#">Cricket</a></li>
+                                <li><a class="dropdown-item" href="#">F1</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link mp-nav-link dropdown-toggle" href="#" id="entertainmentDropdown" role="button" data-bs-toggle="dropdown">
+                                Entertainment
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Movies</a></li>
+                                <li><a class="dropdown-item" href="#">TV Shows</a></li>
+                                <li><a class="dropdown-item" href="#">Music</a></li>
+                                <li><a class="dropdown-item" href="#">Celebrity News</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mp-nav-link" href="#">Live Scores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mp-nav-link" href="#">Fixtures</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mp-nav-link" href="#">Highlights</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mp-nav-link" href="#">Fantasy</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Search news...">
+                            <button class="btn mp-btn" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <span class="badge bg-danger mb-3">Exclusive</span>
+                        <h1 class="hero-title">CHAMPIONS LEAGUE FINAL: MAN CITY CLAIMS FIRST TITLE</h1>
+                        <p class="lead">Pep Guardiola's side completes historic treble with 1-0 victory over Inter Milan in Istanbul.</p>
+                        <a href="#" class="btn mp-btn btn-lg px-4">Watch Highlights</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="container-fluid my-5">
+                <div class="row">
+                    <!-- News Feed -->
+                    <div class="col-lg-12">
+                        <!-- Live Match Widget -->
+                        <div class="live-match-widget">
+                            <div class="live-match-header">
+                                <span><i class="fas fa-tv me-2"></i> LIVE NOW</span>
+                                <span>Premier League • 65'</span>
+                            </div>
+                            <div class="match-teams">
+                                <div class="team">
+                                    <img src="https://via.placeholder.com/60x60?text=MUN" alt="Manchester United" class="team-logo">
+                                    <h5 class="mb-0">Man Utd</h5>
+                                </div>
+                                <div class="match-score">2 - 1</div>
+                                <div class="team">
+                                    <img src="https://via.placeholder.com/60x60?text=LIV" alt="Liverpool" class="team-logo">
+                                    <h5 class="mb-0">Liverpool</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <section>
+            <!-- Main Content -->
+            <div class="container my-5">
+                <div class="row">
+                    <!-- News Feed -->
+                    <div class="col-lg-12">
+                        
+                        <!-- Featured Stories -->
+                        <h2 class="mp-section-title">Featured Stories</h2>
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="position-relative">
+                                        <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1605&q=80" class="card-img-top" alt="News Image">
+                                        <span class="category-badge">Football</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title h5">Messi Confirms MLS Move After PSG Exit</h3>
+                                        <p class="card-text">The Argentine superstar will join Inter Miami in a blockbuster deal that will reshape American soccer.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted"><i class="far fa-clock me-1"></i> 2 hours ago</small>
+                                            <a href="#" class="btn btn-sm mp-btn">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="position-relative">
+                                        <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" class="card-img-top" alt="News Image">
+                                        <span class="category-badge">Movies</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title h5">New Mission Impossible Breaks Box Office Records</h3>
+                                        <p class="card-text">Tom Cruise's latest stunt-filled installment earns $250M worldwide in opening weekend.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted"><i class="far fa-clock me-1"></i> 5 hours ago</small>
+                                            <a href="#" class="btn btn-sm mp-btn">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="position-relative">
+                                        <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" class="card-img-top" alt="News Image">
+                                        <span class="category-badge">Movies</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title h5">New Mission Impossible Breaks Box Office Records</h3>
+                                        <p class="card-text">Tom Cruise's latest stunt-filled installment earns $250M worldwide in opening weekend.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted"><i class="far fa-clock me-1"></i> 5 hours ago</small>
+                                            <a href="#" class="btn btn-sm mp-btn">Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Latest News Cards -->
+                        <div class="row">
+
+                            <!-- News Card 1 -->
+                            <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="position-relative">
+                                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                    class="card-img-top" alt="News Image 1" style="height: 200px; object-fit: cover;">
+                                <span class="category-badge">Politics</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Local Elections: What You Need to Know</h5>
+                                <p class="card-text flex-grow-1">Candidates prepare for upcoming elections with key promises and debates heating up.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted"><i class="far fa-clock me-1"></i> 2 hours ago</small>
+                                    <a href="#" class="btn btn-sm mp-btn">Read More</a>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- News Card 2 -->
+                            <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="position-relative">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                    class="card-img-top" alt="News Image 2" style="height: 200px; object-fit: cover;">
+                                <span class="category-badge">Culture</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Community Festival Lights Up the City</h5>
+                                <p class="card-text flex-grow-1">Music, food, and dance bring locals together to celebrate heritage and unity.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted"><i class="far fa-clock me-1"></i> 6 hours ago</small>
+                                    <a href="#" class="btn btn-sm mp-btn">Read More</a>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- News Card 3 -->
+                            <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="position-relative">
+                                <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                                    class="card-img-top" alt="News Image 3" style="height: 200px; object-fit: cover;">
+                                <span class="category-badge">Business</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">New Infrastructure Project Announced</h5>
+                                <p class="card-text flex-grow-1">Government invests $100M in roads and bridges to boost local economy.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted"><i class="far fa-clock me-1"></i> 1 day ago</small>
+                                    <a href="#" class="btn btn-sm mp-btn">Read More</a>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container my-5">
+            <h2 class="mp-section-title">Latest News</h2>
+            <div class="row gy-4" id="news-container">
+            <!-- Dynamic news cards will be injected here -->
+            </div>
+        </section>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Font Awesome JS (optional if icons need interaction) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+  <script>
+    // Simulate fetching data from an API or backend
+    async function fetchNews() {
+      // Here you can replace with actual fetch, e.g.:
+      // const response = await fetch('https://yourapi.com/news');
+      // return await response.json();
+
+      // Sample static data for demo
+      return [
+        {
+          title: "Government Launches New Rural Development Program",
+          category: "Politics",
+          image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=600&q=80",
+          summary: "A new initiative focuses on improving rural infrastructure and education.",
+          timeAgo: "3 hours ago",
+          link: "#"
+        },
+        {
+          title: "MPLIVEFAN Media Wins Prestigious Journalism Award",
+          category: "Awards",
+          image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+          summary: "Recognized for outstanding reporting on local and regional news stories.",
+          timeAgo: "12 hours ago",
+          link: "#"
+        },
+        {
+          title: "Local Startup Raises $5M in Seed Funding",
+          category: "Business",
+          image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=600&q=80",
+          summary: "Innovative tech startup aims to revolutionize agriculture with AI.",
+          timeAgo: "1 day ago",
+          link: "#"
+        },
+        {
+          title: "Cultural Festival Attracts Thousands to Jaitadhana Village",
+          category: "Culture",
+          image: "https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=600&q=80",
+          summary: "Annual festival showcases folk music, dance, and traditional crafts.",
+          timeAgo: "2 days ago",
+          link: "#"
+        }
+      ];
+    }
+
+    function createNewsCard(news) {
+      const col = document.createElement('div');
+      col.className = 'col-md-4 col-sm-6';
+
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm">
+          <div class="position-relative">
+            <img src="${news.image}" class="card-img-top" alt="News Image">
+            <span class="category-badge">${news.category}</span>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">${news.title}</h5>
+            <p class="card-text flex-grow-1">${news.summary}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted"><i class="far fa-clock me-1"></i> ${news.timeAgo}</small>
+              <a href="${news.link}" class="mp-btn">Read More</a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      return col;
+    }
+
+    async function loadNews() {
+      const newsContainer = document.getElementById('news-container');
+      newsContainer.innerHTML = ''; // Clear container before loading
+      try {
+        const newsItems = await fetchNews();
+        newsItems.forEach(news => {
+          newsContainer.appendChild(createNewsCard(news));
+        });
+      } catch (error) {
+        newsContainer.innerHTML = '<p class="text-danger">Failed to load news. Please try again later.</p>';
+        console.error('Error loading news:', error);
+      }
+    }
+
+    // Load news when page loads
+    window.addEventListener('DOMContentLoaded', loadNews);
+  </script>
+
+
+<!-- Footer -->
+<footer class="footer" >
+  <div class="footer-container" style="width: 100%; margin: 0 auto;">
+
+    
+    <!-- About -->
+    <div class="footer-section">
+      <h3>MPLIVEFAN Media</h3>
+      <p>Bringing real, rural, and relevant news from Jaitadhana, Madhya Pradesh and beyond — with integrity, truth, and vision.</p>
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+      </div>
+    </div>
+    
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Latest News</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    
+    <!-- Resources -->
+    <div class="footer-section">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Media Kit</a></li>
+        <li><a href="#">Advertise</a></li>
+        <li><a href="#">Sitemap</a></li>
+      </ul>
+    </div>
+    
+    <!-- Contact -->
+    <div class="footer-section contact-info">
+      <h3>Contact Us</h3>
+      <p><i class="fas fa-map-marker-alt"></i> Jaitadhana, Betul, MP, India</p>
+      <p><i class="fas fa-phone"></i> +91 XXXXXXXX</p>
+      <p><i class="fas fa-envelope"></i> mplivefanmedia@gmail.com</p>
+    </div>
+    
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 MPLIVEFAN Media. All rights reserved. | Designed with ❤️ for Rural India.
+  </div>
+</footer>
+
+</body>
+</html>
