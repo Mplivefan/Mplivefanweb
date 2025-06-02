@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel | MP LiveFan Media</title>
+  <meta name="description" content="Admin Dashboard for MP LiveFan Media - manage news, events, categories, advertisements, and users.">
+  <!-- Bootstrap 5, FontAwesome, Google Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e51937;
+      --accent: #fbb034;
+      --secondary: #1a1a1a;
+      --footer-bg: #222d34;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f8f9fa;
+      color: #222;
+    }
+    .admin-header {
+      background: var(--secondary);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 1px;
+      padding: 0.9rem 0 0.6rem 0;
+      text-align:center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-header .logo-upload label {
+      font-size: .9rem; background: #fff; border-radius: 6px; color: var(--primary); font-weight: 700; padding: 4px 12px; cursor:pointer; margin-left:10px;
+      border: 1.5px solid var(--primary); transition: background .16s;
+    }
+    .admin-header .logo-upload label:hover { background: var(--primary); color: #fff;}
+    .admin-header img { max-height: 36px; width:auto; vertical-align:middle; border-radius: 6px;}
+    .admin-nav {
+      background: #fff;
+      border-bottom: 3px solid var(--primary);
+      box-shadow: 0 2px 12px #e5193710;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      padding: .5rem 0;
+    }
+    .admin-nav a {
+      color: var(--secondary);
+      font-weight: 600;
+      margin-right: 25px;
+      text-decoration: none;
+      transition: color .16s;
+    }
+    .admin-nav a.active, .admin-nav a:hover { color: var(--primary);}
+    .admin-content {
+      max-width: 1100px;
+      margin: 2rem auto 2rem auto;
+      padding: 1.2rem 1.6rem;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 3px 16px #e5193712;
+    }
+    .admin-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 1.1rem;
+      letter-spacing: 1px;
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+    }
+    .table th { background: #f7f7f7; }
+    .table td, .table th { vertical-align: middle;}
+    .form-label { font-weight: 600;}
+    .badge-category { border-radius: 15px; background: var(--primary); color: #fff; font-weight: 500; font-size: .95rem; padding: 4px 13px;}
+    .badge-draft { background: #aaa; }
+    .badge-published { background: var(--primary);}
+    .ad-preview { max-width: 160px; max-height: 90px; object-fit: cover; border-radius: 6px;}
+    .img-preview-thumb {max-width: 110px; max-height: 60px; object-fit:cover; border-radius:4px; margin-top:2px;}
+    .role-badge {font-size: .95rem; border-radius: 14px; padding: 5px 13px;}
+    .badge-admin {background: var(--primary)!important;}
+    .badge-editor {background: var(--accent)!important;}
+    .badge-viewer {background: #aaa!important;}
+    .user-actions button {margin-right: 4px;}
+    @media (max-width: 767px) {
+      .admin-content {padding: 1rem;}
+      .admin-header {font-size: 1.1rem;}
+      .admin-section-title {font-size: 1.1rem;}
+      .ad-preview {max-width: 90px;}
+      .img-preview-thumb {max-width: 70px;}
+      .admin-header {flex-direction: column; align-items: flex-start;}
+    }
+    .footer-custom {
+      background: var(--footer-bg);
+      color: #ecf0f1;
+      text-align: center;
+      padding: 14px 0 7px;
+      margin-top: 18px;
+      font-size: .98rem;
+      border-radius: 13px 13px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-header">
+    <div>
+      <img id="adminLogoImg" src="img/logo.webp" alt="MP LiveFan Logo">
+      MP LiveFan Media <span style="font-size:1.1rem;">| Admin Panel</span>
+    </div>
+    <div class="logo-upload">
+      <form id="logoUploadForm" enctype="multipart/form-data" style="display:inline;">
+        <input type="file" id="logoInput" style="display:none" accept="image/*">
+        <label for="logoInput" title="Upload new logo"><i class="fa fa-upload"></i> Logo Upload</label>
+      </form>
+    </div>
+  </div>
+  <div class="admin-nav text-center mb-3">
+    <a href="#news" class="active"><i class="fa fa-newspaper"></i> News</a>
+    <a href="#events"><i class="fa fa-calendar-alt"></i> Events</a>
+    <a href="#ads"><i class="fa fa-bullhorn"></i> Advertisements</a>
+    <a href="#categories"><i class="fa fa-list"></i> Categories</a>
+    <a href="#users"><i class="fa fa-users"></i> Users</a>
+    <a href="index.html" target="_blank"><i class="fa fa-home"></i> Public Site</a>
+  </div>
+  <div class="admin-content">
+
+    <!-- News Management -->
+    <div id="news">
+      <div class="admin-section-title"><i class="fa fa-newspaper"></i> News Management</div>
+      <button class="btn btn-sm btn-success mb-3" onclick="showNewsForm()"><i class="fa fa-plus"></i> Add News</button>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Scheduled</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="newsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- News Form Modal -->
+    <div class="modal fade" id="newsFormModal" tabindex="-1" aria-labelledby="newsFormModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <form id="newsForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newsFormModalLabel">Add/Edit News</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" id="newsTitle" required>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Category</label>
+                <select class="form-select" id="newsCategory" required>
+                  <option value="">Select Category</option>
+                </select>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Summary</label>
+                <textarea class="form-control" id="newsSummary" rows="2" required></textarea>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Image</label>
+                <input type="file" accept="image/*" class="form-control mb-1" id="newsImageFile">
+                <input type="text" class="form-control" id="newsImage" required placeholder="img/news/yourimg.webp or https://...">
+                <img id="newsImagePreview" src="" class="img-preview-thumb d-block mt-2" style="display:none;">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="newsStatus" required>
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Schedule (optional)</label>
+                <input type="datetime-local" class="form-control" id="newsSchedule">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <input type="hidden" id="newsIndex">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events Management -->
+    <div id="events" class="mt-5">
+      <div class="admin-section-title"><i class="fa fa-calendar-alt"></i> Events Management</div>
+      <button class="btn btn-sm btn-success mb-3" onclick="showEventForm()"><i class="fa fa-plus"></i> Add Event</button>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Events Form Modal -->
+    <div class="modal fade" id="eventFormModal" tabindex="-1" aria-labelledby="eventFormModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <form id="eventForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="eventFormModalLabel">Add/Edit Event</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" id="eventTitle" required>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" id="eventDate" required>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" id="eventDesc" rows="2" required></textarea>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Image</label>
+                <input type="file" accept="image/*" class="form-control mb-1" id="eventImageFile">
+                <input type="text" class="form-control" id="eventImage" required placeholder="img/news/event1.webp or https://...">
+                <img id="eventImagePreview" src="" class="img-preview-thumb d-block mt-2" style="display:none;">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="eventStatus" required>
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <input type="hidden" id="eventIndex">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advertisement Management -->
+    <div id="ads" class="mt-5">
+      <div class="admin-section-title"><i class="fa fa-bullhorn"></i> Advertisement Management</div>
+      <button class="btn btn-sm btn-success mb-3" onclick="showAdForm()"><i class="fa fa-plus"></i> Add Advertisement</button>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Link</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Ad Form Modal -->
+    <div class="modal fade" id="adFormModal" tabindex="-1" aria-labelledby="adFormModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <form id="adForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="adFormModalLabel">Add/Edit Advertisement</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2">
+                <label class="form-label">Image</label>
+                <input type="file" accept="image/*" class="form-control mb-1" id="adImageFile">
+                <input type="text" class="form-control" id="adImage" required placeholder="img/news/ad1.webp or https://...">
+                <img id="adImagePreview" src="" class="img-preview-thumb d-block mt-2" style="display:none;">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Link</label>
+                <input type="url" class="form-control" id="adLink" required placeholder="https://...">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="adStatus" required>
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <input type="hidden" id="adIndex">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Management -->
+    <div id="categories" class="mt-5">
+      <div class="admin-section-title"><i class="fa fa-list"></i> Category Management</div>
+      <form class="row g-3 mb-3" id="catForm">
+        <div class="col-md-4">
+          <input type="text" id="catName" class="form-control" placeholder="Category Name" required>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" type="submit"><i class="fa fa-plus"></i> Add</button>
+        </div>
+      </form>
+      <ul class="list-group" id="catList"></ul>
+    </div>
+
+    <!-- User Management -->
+    <div id="users" class="mt-5">
+      <div class="admin-section-title"><i class="fa fa-users"></i> User Management</div>
+      <button class="btn btn-sm btn-success mb-3" onclick="showUserForm()"><i class="fa fa-plus"></i> Add User</button>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- User Form Modal -->
+    <div class="modal fade" id="userFormModal" tabindex="-1" aria-labelledby="userFormModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+          <form id="userForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="userFormModalLabel">Add/Edit User</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-2">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" id="userName" required>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Role</label>
+                <select class="form-select" id="userRole" required>
+                  <option value="admin">Admin</option>
+                  <option value="editor">Editor</option>
+                  <option value="viewer">Viewer</option>
+                </select>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="userStatus" required>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+            <input type="hidden" id="userIndex">
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <footer class="footer-custom">
+    <span class="small">&copy; 2025 MP LiveFan Media Admin. All rights reserved.</span>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- The JavaScript below is the same as in previous versions and is fully functional for all admin operations. -->
+  <script>
+    function lsGet(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
+    }
+    function lsSet(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+    // Logo Upload
+    function updateLogo(src) {
+      document.getElementById('adminLogoImg').src = src;
+      localStorage.setItem('mplivefan_logo', JSON.stringify(src));
+    }
+    (() => {
+      const logo = lsGet('mplivefan_logo', null);
+      if(logo) updateLogo(logo);
+      document.getElementById('logoInput').addEventListener('change', function(e){
+        const file = e.target.files[0];
+        if(file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) { updateLogo(e.target.result);}
+          reader.readAsDataURL(file);
+        }
+      });
+    })();
+
+    // Categories
+    let categories = lsGet('mplivefan_categories', [
+      "Official", "Trending", "Sports", "Entertainment", "Politics", "Culture", "Rural", "Events", "Technology"
+    ]);
+    function renderCategories() {
+      const list = document.getElementById('catList');
+      list.innerHTML = categories.map((c,i)=>`
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${c}
+          <button class="btn btn-sm btn-danger" onclick="removeCat(${i})"><i class="fa fa-trash"></i></button>
+        </li>
+      `).join('');
+      document.getElementById('newsCategory').innerHTML = `<option value="">Select Category</option>` + categories.map(c=>`<option>${c}</option>`).join('');
+    }
+    window.removeCat = function(idx) {
+      if(confirm('Delete this category?')) {
+        categories.splice(idx,1);
+        lsSet('mplivefan_categories',categories);
+        renderCategories(); renderNewsTable();
+      }
+    }
+    document.getElementById('catForm').onsubmit = function(e){
+      e.preventDefault();
+      const val = document.getElementById('catName').value.trim();
+      if(val && !categories.includes(val)) {
+        categories.push(val);
+        lsSet('mplivefan_categories',categories);
+        renderCategories();
+        document.getElementById('catName').value = '';
+      }
+    }
+
+    // News
+    let news = lsGet('mplivefan_news', []);
+    function renderNewsTable() {
+      const body = document.getElementById('newsTableBody');
+      body.innerHTML = news.length ? news.map((n,i)=>`
+        <tr>
+          <td>${n.title}</td>
+          <td><span class="badge badge-category">${n.category}</span></td>
+          <td><span class="badge ${n.status==='published'?'badge-published':'badge-draft'}">${n.status}</span></td>
+          <td>${n.schedule?new Date(n.schedule).toLocaleString():"-"}</td>
+          <td>${n.image ? `<img src="${n.image}" class="img-preview-thumb">` : ''}</td>
+          <td>
+            <button class="btn btn-sm btn-info" onclick="showNewsForm(${i})"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="delNews(${i})"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('') : `<tr><td colspan="6" class="text-center text-muted">No news posts yet.</td></tr>`;
+    }
+    window.showNewsForm = function(idx) {
+      document.getElementById('newsForm').reset();
+      document.getElementById('newsImagePreview').style.display = "none";
+      document.getElementById('newsIndex').value = idx !== undefined ? idx : '';
+      if(idx!==undefined) {
+        const n = news[idx];
+        document.getElementById('newsTitle').value = n.title;
+        document.getElementById('newsCategory').value = n.category;
+        document.getElementById('newsSummary').value = n.summary;
+        document.getElementById('newsImage').value = n.image;
+        document.getElementById('newsStatus').value = n.status;
+        document.getElementById('newsSchedule').value = n.schedule||"";
+        if(n.image){
+          document.getElementById('newsImagePreview').src = n.image;
+          document.getElementById('newsImagePreview').style.display = "";
+        }
+      }
+      new bootstrap.Modal(document.getElementById('newsFormModal')).show();
+    }
+    document.getElementById('newsImageFile').onchange = function(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e){
+        document.getElementById('newsImage').value = e.target.result;
+        document.getElementById('newsImagePreview').src = e.target.result;
+        document.getElementById('newsImagePreview').style.display = "";
+      }
+      reader.readAsDataURL(file);
+    }
+    document.getElementById('newsImage').oninput = function(e){
+      const url = e.target.value;
+      if(url) {
+        document.getElementById('newsImagePreview').src = url;
+        document.getElementById('newsImagePreview').style.display = "";
+      } else {
+        document.getElementById('newsImagePreview').style.display = "none";
+      }
+    }
+    document.getElementById('newsForm').onsubmit = function(e){
+      e.preventDefault();
+      const n = {
+        title: document.getElementById('newsTitle').value.trim(),
+        category: document.getElementById('newsCategory').value,
+        summary: document.getElementById('newsSummary').value.trim(),
+        image: document.getElementById('newsImage').value.trim(),
+        status: document.getElementById('newsStatus').value,
+        schedule: document.getElementById('newsSchedule').value
+      };
+      const idx = document.getElementById('newsIndex').value;
+      if(idx) news[idx]=n; else news.push(n);
+      lsSet('mplivefan_news',news);
+      renderNewsTable(); bootstrap.Modal.getInstance(document.getElementById('newsFormModal')).hide();
+    }
+    window.delNews = function(idx) {
+      if(confirm('Delete this news post?')) {
+        news.splice(idx,1);
+        lsSet('mplivefan_news',news);
+        renderNewsTable();
+      }
+    }
+
+    // Events
+    let events = lsGet('mplivefan_events', []);
+    function renderEventsTable() {
+      const body = document.getElementById('eventsTableBody');
+      body.innerHTML = events.length ? events.map((e,i)=>`
+        <tr>
+          <td>${e.title}</td>
+          <td>${e.date}</td>
+          <td><span class="badge ${e.status==='published'?'badge-published':'badge-draft'}">${e.status}</span></td>
+          <td>${e.image ? `<img src="${e.image}" class="img-preview-thumb">` : ''}</td>
+          <td>
+            <button class="btn btn-sm btn-info" onclick="showEventForm(${i})"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="delEvent(${i})"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('') : `<tr><td colspan="5" class="text-center text-muted">No events yet.</td></tr>`;
+    }
+    window.showEventForm = function(idx) {
+      document.getElementById('eventForm').reset();
+      document.getElementById('eventImagePreview').style.display = "none";
+      document.getElementById('eventIndex').value = idx !== undefined ? idx : '';
+      if(idx!==undefined) {
+        const e = events[idx];
+        document.getElementById('eventTitle').value = e.title;
+        document.getElementById('eventDate').value = e.date;
+        document.getElementById('eventDesc').value = e.desc;
+        document.getElementById('eventImage').value = e.image;
+        document.getElementById('eventStatus').value = e.status;
+        if(e.image){
+          document.getElementById('eventImagePreview').src = e.image;
+          document.getElementById('eventImagePreview').style.display = "";
+        }
+      }
+      new bootstrap.Modal(document.getElementById('eventFormModal')).show();
+    }
+    document.getElementById('eventImageFile').onchange = function(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e){
+        document.getElementById('eventImage').value = e.target.result;
+        document.getElementById('eventImagePreview').src = e.target.result;
+        document.getElementById('eventImagePreview').style.display = "";
+      }
+      reader.readAsDataURL(file);
+    }
+    document.getElementById('eventImage').oninput = function(e){
+      const url = e.target.value;
+      if(url) {
+        document.getElementById('eventImagePreview').src = url;
+        document.getElementById('eventImagePreview').style.display = "";
+      } else {
+        document.getElementById('eventImagePreview').style.display = "none";
+      }
+    }
+    document.getElementById('eventForm').onsubmit = function(e){
+      e.preventDefault();
+      const ev = {
+        title: document.getElementById('eventTitle').value.trim(),
+        date: document.getElementById('eventDate').value,
+        desc: document.getElementById('eventDesc').value.trim(),
+        image: document.getElementById('eventImage').value.trim(),
+        status: document.getElementById('eventStatus').value
+      };
+      const idx = document.getElementById('eventIndex').value;
+      if(idx) events[idx]=ev; else events.push(ev);
+      lsSet('mplivefan_events',events);
+      renderEventsTable(); bootstrap.Modal.getInstance(document.getElementById('eventFormModal')).hide();
+    }
+    window.delEvent = function(idx) {
+      if(confirm('Delete this event?')) {
+        events.splice(idx,1);
+        lsSet('mplivefan_events',events);
+        renderEventsTable();
+      }
+    }
+
+    // Ads
+    let ads = lsGet('mplivefan_ads', []);
+    function renderAdsTable() {
+      const body = document.getElementById('adsTableBody');
+      body.innerHTML = ads.length ? ads.map((a,i)=>`
+        <tr>
+          <td><img src="${a.image}" class="ad-preview" alt="ad"></td>
+          <td><a href="${a.link}" target="_blank">${a.link}</a></td>
+          <td><span class="badge ${a.status==='published'?'badge-published':'badge-draft'}">${a.status}</span></td>
+          <td>
+            <button class="btn btn-sm btn-info" onclick="showAdForm(${i})"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="delAd(${i})"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('') : `<tr><td colspan="4" class="text-center text-muted">No advertisements yet.</td></tr>`;
+    }
+    window.showAdForm = function(idx) {
+      document.getElementById('adForm').reset();
+      document.getElementById('adImagePreview').style.display = "none";
+      document.getElementById('adIndex').value = idx !== undefined ? idx : '';
+      if(idx!==undefined) {
+        const a = ads[idx];
+        document.getElementById('adImage').value = a.image;
+        document.getElementById('adLink').value = a.link;
+        document.getElementById('adStatus').value = a.status;
+        if(a.image){
+          document.getElementById('adImagePreview').src = a.image;
+          document.getElementById('adImagePreview').style.display = "";
+        }
+      }
+      new bootstrap.Modal(document.getElementById('adFormModal')).show();
+    }
+    document.getElementById('adImageFile').onchange = function(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e){
+        document.getElementById('adImage').value = e.target.result;
+        document.getElementById('adImagePreview').src = e.target.result;
+        document.getElementById('adImagePreview').style.display = "";
+      }
+      reader.readAsDataURL(file);
+    }
+    document.getElementById('adImage').oninput = function(e){
+      const url = e.target.value;
+      if(url) {
+        document.getElementById('adImagePreview').src = url;
+        document.getElementById('adImagePreview').style.display = "";
+      } else {
+        document.getElementById('adImagePreview').style.display = "none";
+      }
+    }
+    document.getElementById('adForm').onsubmit = function(e){
+      e.preventDefault();
+      const ad = {
+        image: document.getElementById('adImage').value.trim(),
+        link: document.getElementById('adLink').value.trim(),
+        status: document.getElementById('adStatus').value
+      };
+      const idx = document.getElementById('adIndex').value;
+      if(idx) ads[idx]=ad; else ads.push(ad);
+      lsSet('mplivefan_ads',ads);
+      renderAdsTable(); bootstrap.Modal.getInstance(document.getElementById('adFormModal')).hide();
+    }
+    window.delAd = function(idx) {
+      if(confirm('Delete this advertisement?')) {
+        ads.splice(idx,1);
+        lsSet('mplivefan_ads',ads);
+        renderAdsTable();
+      }
+    }
+
+    // Users
+    let users = lsGet('mplivefan_users', [
+      {username:"Mplivefan", role:"admin", status:"active"},
+      {username:"demoeditor", role:"editor", status:"inactive"}
+    ]);
+    function renderUsers() {
+      const body = document.getElementById('userTableBody');
+      body.innerHTML = users.length ? users.map((u,i)=>`
+        <tr>
+          <td>${u.username}</td>
+          <td><span class="role-badge badge-${u.role}">${u.role.charAt(0).toUpperCase()+u.role.slice(1)}</span></td>
+          <td><span class="badge ${u.status==='active'?'bg-primary':'bg-secondary'}">${u.status.charAt(0).toUpperCase()+u.status.slice(1)}</span></td>
+          <td class="user-actions">
+            <button class="btn btn-sm btn-info" onclick="showUserForm(${i})"><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="delUser(${i})"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('') : `<tr><td colspan="4" class="text-center text-muted">No users yet.</td></tr>`;
+    }
+    window.showUserForm = function(idx) {
+      document.getElementById('userForm').reset();
+      document.getElementById('userIndex').value = idx !== undefined ? idx : '';
+      if(idx!==undefined) {
+        const u = users[idx];
+        document.getElementById('userName').value = u.username;
+        document.getElementById('userRole').value = u.role;
+        document.getElementById('userStatus').value = u.status;
+      }
+      new bootstrap.Modal(document.getElementById('userFormModal')).show();
+    }
+    document.getElementById('userForm').onsubmit = function(e){
+      e.preventDefault();
+      const u = {
+        username: document.getElementById('userName').value.trim(),
+        role: document.getElementById('userRole').value,
+        status: document.getElementById('userStatus').value
+      };
+      const idx = document.getElementById('userIndex').value;
+      if(idx) users[idx]=u; else users.push(u);
+      lsSet('mplivefan_users',users);
+      renderUsers(); bootstrap.Modal.getInstance(document.getElementById('userFormModal')).hide();
+    }
+    window.delUser = function(idx) {
+      if(confirm('Delete this user?')) {
+        users.splice(idx,1);
+        lsSet('mplivefan_users',users);
+        renderUsers();
+      }
+    }
+    // INIT
+    renderCategories();
+    renderNewsTable();
+    renderEventsTable();
+    renderAdsTable();
+    renderUsers();
+  </script>
+</body>
+</html>

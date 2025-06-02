@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MP LiveFan Media - Official News & Stories</title>
+  <meta name="description" content="Latest official news, stories, sports, and culture from MP LiveFan Media.">
+  <meta name="keywords" content="mp livefan, news, official, sports, entertainment, stories, madhya pradesh, india, latest">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mplivefan.com/">
+  <!-- Bootstrap 5, FontAwesome, Google Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #e51937;
+      --accent: #fbb034;
+      --secondary: #1a1a1a;
+      --footer-bg: #222d34;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f8f9fa;
+      color: #222;
+    }
+    .super-header {
+      background: var(--secondary);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 1px;
+      padding: 0.35rem 0 0.25rem 0;
+    }
+    .super-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .super-header .social-icons a {
+      color: #fff;
+      margin-right: 16px;
+      font-size: 1.1rem;
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .super-header .social-icons a:hover {opacity: 1;}
+    .super-header .top-links a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      opacity: 0.8;
+      transition: color 0.2s;
+    }
+    .super-header .top-links a:hover {
+      color: var(--primary);
+      opacity: 1;
+    }
+    .navbar {
+      background: #fff !important;
+      box-shadow: 0 2px 12px #e5193710;
+      border-bottom: 3px solid var(--primary);
+    }
+    .navbar-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--primary)!important;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+    }
+    .navbar-brand img { height:36px; width:auto; margin-right:10px;}
+    .official-badge {
+      background: var(--primary);
+      color: #fff;
+      border-radius: 20px;
+      padding: 0.19em 1em;
+      margin-left: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px #e5193730;
+    }
+    .navbar .nav-link {
+      font-weight: 600;
+      color: var(--secondary)!important;
+      letter-spacing: 1px;
+      font-size: 1.07rem;
+      text-transform: uppercase;
+    }
+    .navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
+      color: var(--primary)!important;
+    }
+    .navbar .dropdown-menu {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+    }
+    .marquee-bar {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 7px 0;
+      letter-spacing: 0.5px;
+    }
+    .category-toggle {
+      background: #fff;
+      border-radius: 12px;
+      margin: 24px auto 32px auto;
+      box-shadow: 0 2px 18px #e5193715;
+      overflow-x: auto;
+      max-width: 1000px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 0.7rem 0.9rem;
+    }
+    .category-btn {
+      border: none;
+      background: #f4f4f4;
+      color: #222;
+      border-radius: 30px;
+      padding: 0.55em 1.2em;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-right: 4px;
+      transition: all .17s;
+      cursor: pointer;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .category-btn.active, .category-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 12px #e5193720;
+    }
+    .news-card {
+      background: #fff;
+      border-radius: 14px;
+      border: none;
+      box-shadow: 0 2px 12px #e5193712;
+      margin-bottom: 32px;
+      transition: box-shadow .18s, transform .14s;
+      overflow: hidden;
+      position: relative;
+    }
+    .news-card:hover { box-shadow: 0 8px 34px #e519372a; transform: scale(1.025);}
+    .news-card .card-img-top {
+      border-radius: 14px 14px 0 0;
+      object-fit: cover;
+      height: 165px;
+      width: 100%;
+      background: #f4f4f4;
+    }
+    .category-badge {
+      background: var(--primary);
+      color: #fff;
+      font-size: .92rem;
+      border-radius: 8px;
+      padding: 3px 11px;
+      font-weight: 600;
+      position: absolute;
+      top: 12px; left: 12px;
+      z-index: 2;
+    }
+    .news-card .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.22rem;
+      color: var(--primary);
+      margin-top: 6px;
+      margin-bottom: 5px;
+    }
+    .news-card .btn {
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 20px;
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 18px;
+      margin-top: 8px;
+    }
+    .news-card .btn:hover { background: var(--accent);}
+    /* Event Card */
+    .event-card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1.5px solid #e5193725;
+      box-shadow: 0 2px 16px #e5193712;
+      margin-bottom: 24px;
+      transition: box-shadow .16s, transform .13s;
+      overflow: hidden;
+      position: relative;
+      min-height: 100%;
+    }
+    .event-card:hover { box-shadow: 0 8px 34px #e5193730; transform: scale(1.018);}
+    .event-card .card-img-top {
+      border-radius: 14px 14px 0 0;
+      object-fit: cover;
+      height: 120px;
+      width: 100%;
+      background: #f4f4f4;
+    }
+    .event-card .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.11rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .event-date-badge {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: .92rem;
+      border-radius: 7px;
+      padding: 3px 10px;
+      position: absolute;
+      top: 10px; right: 10px;
+      z-index: 2;
+    }
+    /* Ads */
+    .ad-box {
+      border: 1.5px solid #fbb03433;
+      background: #fffdf7;
+      transition: box-shadow .18s;
+    }
+    .ad-box:hover {
+      box-shadow: 0 6px 24px #e5193725;
+    }
+    /* Footer */
+    .footer {
+      background: var(--footer-bg);
+      color: #ecf0f1;
+      padding: 36px 0 18px;
+      border-radius: 18px 18px 0 0;
+      margin-top: 34px;
+      font-size: 1rem;
+    }
+    .footer a {color:var(--accent);}
+    .footer-bottom {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.96rem;
+      color: #bdc3c7;
+    }
+    @media (max-width: 991px) {
+      .category-toggle { gap: 5px; font-size: .98rem;}
+      .news-card .card-img-top, .event-card .card-img-top {height: 90px;}
+      .news-card .card-title, .event-card .card-title {font-size: 1rem;}
+      .navbar-brand {font-size: 1.3rem;}
+    }
+    @media (max-width: 767px) {
+      .super-header .container {flex-direction: column;align-items: flex-start;}
+      .footer {font-size: .97rem;}
+      .ad-box img { max-height: 100px;}
+      .event-card .card-img-top {height: 70px;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Super Header -->
+  <div class="super-header">
+    <div class="container">
+      <div>
+        <span>
+          <i class="fa fa-map-marker-alt"></i> Jaitadhana, Betul, MP
+        </span>
+        <span class="ms-3"><i class="fa fa-envelope"></i> mplivefanmedia@gmail.com</span>
+      </div>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+      </div>
+      <div class="top-links d-none d-md-block">
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+  </div>
+  <!-- Navbar/Header -->
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img id="mainLogoImg" src="img/logo.webp" alt="MP LiveFan Logo">
+        MP LiveFan
+        <span class="official-badge"><i class="fa fa-certificate"></i> Official</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="newsDropdown" role="button" data-bs-toggle="dropdown">
+              News
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="news.html">All News</a></li>
+              <li><a class="dropdown-item" href="news.html?cat=Official">Official Updates</a></li>
+              <li><a class="dropdown-item" href="news.html?cat=Trending">Trending</a></li>
+              <li><a class="dropdown-item" href="news.html?cat=Sports">Sports</a></li>
+              <li><a class="dropdown-item" href="news.html?cat=Entertainment">Entertainment</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Marquee Announcement -->
+  <div class="marquee-bar">
+    <marquee behavior="scroll" direction="left" id="marqueeMsg">
+      Welcome to the Official MP LiveFan Portal — Live news, entertainment, and exclusive updates!
+    </marquee>
+  </div>
+  <!-- Category Toggle -->
+  <div class="category-toggle" id="categoryToggle"></div>
+  <!-- Responsive Advertisement Box -->
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="ad-box text-center p-3 mb-4 shadow-sm bg-white rounded-3">
+          <span class="badge bg-danger mb-2" style="font-size:.97rem;">
+            <i class="fa fa-bullhorn"></i> Official Advertisement
+          </span>
+          <a id="adBoxLink" href="#" target="_blank" rel="noopener">
+            <img id="adBoxImg" src="img/news/ad1.webp" alt="Sponsored Ad" class="img-fluid rounded-2" style="max-height:160px;object-fit:cover;width:100%;">
+          </a>
+          <div class="small text-muted mt-2">Advertise with us: <a href="contact.html" class="text-primary">Contact Now</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Responsive Events Section -->
+  <div class="container my-4">
+    <h3 class="mb-3" style="font-family:'Bebas Neue',sans-serif;color:var(--primary);letter-spacing:1px;">Upcoming & Latest Events</h3>
+    <div class="row" id="eventsGrid"></div>
+  </div>
+  <!-- Main News Grid -->
+  <div class="container mb-4">
+    <h3 class="mb-3" style="font-family:'Bebas Neue',sans-serif;color:var(--primary);letter-spacing:1px;">Latest News</h3>
+    <div class="row" id="newsGrid"></div>
+  </div>
+  <!-- News Post Modal -->
+  <div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="newsModalLabel"></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="newsModalBody"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container pt-4 pb-3">
+      <div class="row gy-4">
+        <div class="col-md-4">
+          <img id="footerLogoImg" src="img/logo.webp" alt="MP LiveFan Logo" style="height:34px;width:auto;">
+          <span class="h5 ms-2" style="font-family:'Bebas Neue',sans-serif;">MP LiveFan Media</span>
+          <p class="small mt-2">Bringing rural and real news from Madhya Pradesh and beyond, with truth and vision.</p>
+        </div>
+        <div class="col-md-4">
+          <h6>Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="news.html">Latest News</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6>Contact Us</h6>
+          <p class="small mb-2"><i class="fas fa-map-marker-alt me-2"></i>Jaitadhana, Betul, MP, India</p>
+          <p class="small mb-2"><i class="fas fa-phone me-2"></i>+91 XXXXXXXX</p>
+          <p class="small"><i class="fas fa-envelope me-2"></i>mplivefanmedia@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom mt-4">
+        &copy; 2025 MP LiveFan Media. All rights reserved. | Designed with ❤️ for Rural India.
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Load logo from localStorage (uploaded from admin)
+    (function(){
+      var logo = localStorage.getItem('mplivefan_logo');
+      if(logo){
+        var src = JSON.parse(logo);
+        document.getElementById('mainLogoImg').src = src;
+        document.getElementById('footerLogoImg').src = src;
+      }
+    })();
+
+    // Load categories from admin
+    let categories = [];
+    try { categories = JSON.parse(localStorage.getItem('mplivefan_categories')) || []; } catch { categories = []; }
+    if (!categories.length) categories = ["Official", "Trending", "Sports", "Entertainment", "Politics", "Culture", "Rural", "Events", "Technology"];
+    let currentCategory = "All";
+    function renderCategoryToggle() {
+      const allCats = ["All", ...categories];
+      document.getElementById("categoryToggle").innerHTML = allCats.map(cat =>
+        `<button class="category-btn${cat===currentCategory?" active":""}" onclick="filterCategory('${cat}')">${cat}</button>`
+      ).join('');
+    }
+    window.filterCategory = function(cat) {
+      currentCategory = cat;
+      renderCategoryToggle();
+      renderNewsGrid();
+    };
+
+    // Load news from admin (published/scheduled)
+    let news = [];
+    try { news = JSON.parse(localStorage.getItem('mplivefan_news')) || []; } catch { news = []; }
+    news = news.filter(n => n.status === "published" && (!n.schedule || new Date(n.schedule) <= new Date()));
+    // Sort by schedule or recent
+    news.sort((a, b) => {
+      let da = a.schedule ? new Date(a.schedule) : new Date(0);
+      let db = b.schedule ? new Date(b.schedule) : new Date(0);
+      return db - da;
+    });
+
+    function renderNewsGrid() {
+      let filtered = news;
+      if(currentCategory !== "All") filtered = news.filter(p=>p.category===currentCategory);
+      const grid = document.getElementById("newsGrid");
+      if(!filtered.length) {
+        grid.innerHTML = `<div class="col-12 text-center text-muted py-5">No news found in this category.</div>`;
+        return;
+      }
+      grid.innerHTML = filtered.map((n,i)=>`
+        <div class="col-md-4 col-sm-6">
+          <div class="card news-card position-relative h-100" onclick="showModal('news',${i})">
+            <img src="${n.image||'img/logo.webp'}" class="card-img-top" alt="${n.title}">
+            <span class="category-badge">${n.category}</span>
+            <div class="card-body">
+              <div class="card-title">${n.title}</div>
+              <div class="card-text">${n.summary.slice(0,90)}...</div>
+              <button class="btn btn-sm mt-2">Read More</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Load events from admin (published only, sorted by date upcoming first)
+    let events = [];
+    try { events = JSON.parse(localStorage.getItem('mplivefan_events')) || []; } catch { events = []; }
+    events = events.filter(e => e.status === "published").sort((a, b) => new Date(a.date) - new Date(b.date));
+    function renderEventsGrid() {
+      const grid = document.getElementById("eventsGrid");
+      if(!events.length) {
+        grid.innerHTML = `<div class="col-12 text-center text-muted py-5">No events found.</div>`;
+        return;
+      }
+      grid.innerHTML = events.map((e, i) => `
+        <div class="col-md-4 col-sm-6">
+          <div class="card event-card position-relative h-100" onclick="showModal('event',${i})">
+            <img src="${e.image||'img/logo.webp'}" class="card-img-top" alt="${e.title}">
+            <span class="event-date-badge">${e.date ? new Date(e.date).toLocaleDateString() : ''}</span>
+            <div class="card-body">
+              <div class="card-title">${e.title}</div>
+              <div class="card-text">${(e.desc||'').slice(0,90)}...</div>
+              <button class="btn btn-sm mt-2">Read More</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Load ads from admin (published only, display first ad)
+    (function(){
+      let ads = [];
+      try { ads = JSON.parse(localStorage.getItem('mplivefan_ads')) || []; } catch { ads = []; }
+      const publishedAds = ads.filter(a => a.status === "published");
+      if (publishedAds.length) {
+        document.getElementById('adBoxImg').src = publishedAds[0].image;
+        document.getElementById('adBoxImg').alt = "Ad";
+        document.getElementById('adBoxLink').href = publishedAds[0].link;
+      }
+    })();
+
+    // Show Details Modal for news/event
+    window.showModal = function(type, idx) {
+      let data = (type === "news" ? news : events)[idx];
+      document.getElementById('newsModalLabel').textContent = data.title;
+      document.getElementById('newsModalBody').innerHTML = `
+        <img src="${data.image||'img/logo.webp'}" alt="${data.title}" class="w-100 mb-3 rounded">
+        <div class="mb-2">${type === "event" && data.date ? `<span class="badge bg-success">${new Date(data.date).toLocaleDateString()}</span>` : `<span class="badge bg-primary">${data.category}</span>`}</div>
+        <p class="mb-2">${type === "event" ? (data.desc||'') : (data.summary||'')}</p>
+      `;
+      var modal = new bootstrap.Modal(document.getElementById('newsModal'));
+      modal.show();
+    };
+
+    // INIT
+    renderCategoryToggle();
+    renderNewsGrid();
+    renderEventsGrid();
+  </script>
+</body>
+</html>
